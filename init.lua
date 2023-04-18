@@ -16,16 +16,13 @@ return {
       --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
     },
   },
-
   -- Set colorscheme to use
-  colorscheme = "astrodark",
-
+  colorscheme = "gruvbox-material",
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = true,
     underline = true,
   },
-
   lsp = {
     -- customize lsp formatting options
     formatting = {
@@ -47,12 +44,36 @@ return {
       --   return true
       -- end
     },
+    setup_handlers = {
+      rust_analyzer = function(_, opts) require("rust-tools").setup { server = opts } end,
+      clangd = function(_, opts) require("clangd_extensions").setup { server = opts } end,
+      tsserver = function(_, opts) require("typescript").setup { server = opts } end,
+    },
+    config = {
+      clangd = {
+        capabilities = {
+          offsetEncoding = "utf-8",
+        },
+      },
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              loadOutDirsFromCheck = true,
+              features = "all",
+            },
+            checkOnSave = { command = "clippy" },
+            procMacro = { enable = true },
+            experimental = { procAttrMacros = true },
+          },
+        },
+      },
+    },
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
     },
   },
-
   -- Configure require("lazy").setup() options
   lazy = {
     defaults = { lazy = true },
@@ -63,7 +84,6 @@ return {
       },
     },
   },
-
   -- This function is run last and is a good place to configuring
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
