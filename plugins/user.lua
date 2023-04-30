@@ -45,4 +45,9 @@ return {
     event = "User AstroFile",
     cmd = { "Trouble", "TroubleClose", "TroubleRefresh", "TroubleToggle" },
   },
+  {
+    "xiyaowong/transparent.nvim",
+    opts = {},
+    lazy = false,
+  },
 }
